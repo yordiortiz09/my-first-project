@@ -26,7 +26,7 @@ export class CodigoVerificacionComponent {
     return this.form.get('codigo') as FormControl;
   }
   onSubmit() {
-    const url = 'http://127.0.0.1:8000/api/telefonoregistr';
+    const url = 'http://192.168.123.110:8000/api/telefonoregistr';
 
     this.http.post<any>(url, { codigo: this.codigo.value }).subscribe(
       response => {

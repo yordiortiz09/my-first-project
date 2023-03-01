@@ -51,6 +51,7 @@ export class AuthService {
       Authorization: `Bearer ${token}`
     });
   }
+
   verifyToken(token: string) {
     return this.http.get<boolean>(`${this.apiUrl3}/verifyToken`, {
       headers: {
@@ -58,6 +59,25 @@ export class AuthService {
       }
     });
   }
+  // async getUserRole() {
+  //   try {
+  //     const response: any = await this.http.get(`http://192.168.123.110:8000/api/usuario/rol`).toPromise();
+  //     return response.rol_id;
+  //   } catch (error) {
+  //     console.log(error);
+  //     return null;
+  //   }
+  // }
+  async getUserRole() {
+    try {
+      const response: any = await this.http.get('http://192.168.123.110:8000/api/usuario/rol').toPromise();
+      return response.rol_id;
+    } catch (error) {
+      console.log(error);
+      return null;
+    }
+  }
+
 
 
   logout(): void {

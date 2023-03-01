@@ -40,7 +40,7 @@ export class LoginComponent {
         }
         localStorage.setItem('id',response.user.id);
         localStorage.setItem('name',response.user.name);
-        localStorage.setItem('rol_id',response.user.rol_id);
+       
         localStorage.setItem('token',response.token);
         this.authService.info(response.user.id).subscribe(user =>
         { console.log(user);
@@ -52,12 +52,12 @@ export class LoginComponent {
         }
         else if(response.user.rol_id == 2){
           this.sharedService.setId(response.user.rol_id);  
-          this.router.navigate(['chefs-info']);
+          this.router.navigate(['/see-chefs']);
         }
         else if(response.user.rol_id == 3){
           this.sharedService.setId(response.user.rol_id); 
-          this.router.navigate(['chefs-info']);
-        
+          location.reload(); 
+          this.router.navigate(['/chefs-info']);
           
         }
       },
