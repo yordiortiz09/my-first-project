@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectorRef, Component } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { User } from '../../Interfaces/user.interface';
@@ -19,7 +19,7 @@ export class LoginComponent {
   showError: boolean = false;
   public apiFailed: boolean = false;
 
-  constructor(private fb: FormBuilder,private authService: AuthService,private sharedService: SharedServiceService,private router:Router,private route: ActivatedRoute) 
+  constructor(private fb: FormBuilder,private authService: AuthService,private sharedService: SharedServiceService,private router:Router,private route: ActivatedRoute, private changeDetectorRef: ChangeDetectorRef) 
   { 
   
     this.form= this.fb.group({
@@ -30,41 +30,38 @@ export class LoginComponent {
   get password(){ return this.form.get('password') as FormControl}
   get email(){ return this.form.get('email') as FormControl}
   
+  
     onSubmit(values: User)
     {  
       this.authService.login(values).subscribe((response:any) =>
       {
         if (response.user.status === 0) {
-          alert('El usuario está desactivado. No se puede iniciar sesión.');
+          alert('Usuario deshabilitado.');
+          this.router.navigate(['/login']);
           return;
         }
-        localStorage.setItem('id',response.user.id);
-        localStorage.setItem('name',response.user.name);
-       
         localStorage.setItem('token',response.token);
         this.authService.info(response.user.id).subscribe(user =>
-        { console.log(user);
-         
+        { 
         });
-        if(response.user.rol_id == 1){
-        this.sharedService.setId(response.user.rol_id);  
-        this.router.navigate(['/see-users']);
-        }
-        else if(response.user.rol_id == 2){
-          this.sharedService.setId(response.user.rol_id);  
-          this.router.navigate(['/see-chefs']);
-        }
-        else if(response.user.rol_id == 3){
+        if(response.user.rol_id === 1){
           this.sharedService.setId(response.user.rol_id); 
-          location.reload(); 
+          this.changeDetectorRef.detectChanges();  
+          this.router.navigate(['/see-users']); 
+        }
+        else if(response.user.rol_id === 2){
           this.router.navigate(['/chefs-info']);
-          
+          this.sharedService.setId(response.user.rol_id);
+          this.changeDetectorRef.detectChanges(); 
+        }
+        else if(response.user.rol_id === 3){
+          this.router.navigate(['/chefs-info']);
+          this.sharedService.setId(response.user.rol_id);  
+          this.changeDetectorRef.detectChanges(); 
         }
       },
       error => {
         console.log(error); 
-        this.showError = true; 
-        this.apiFailed = true;
       });
     }
    

@@ -3,6 +3,7 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Platos } from 'src/app/Interfaces/tiposPlato.interface';
+import { GlobalVariablesService } from 'src/app/services/global-variables.service';
 
 @Component({
   selector: 'app-create-platos',
@@ -10,7 +11,7 @@ import { Platos } from 'src/app/Interfaces/tiposPlato.interface';
   styleUrls: ['./create-platos.component.css']
 })
 export class CreatePlatosComponent {
-  constructor (private fb:FormBuilder, private http: HttpClient, private router: Router){
+  constructor (private fb:FormBuilder, private http: HttpClient, private router: Router, private globalVariable: GlobalVariablesService){
 
   }
   formu = this.fb.group({
@@ -22,7 +23,7 @@ export class CreatePlatosComponent {
 
   crearPlato() {
    
-    const url = 'http://192.168.123.110:8000/api/tipo_platoyordi';
+    // const url = 'http://192.168.123.110:8000/api/tipo_platoyordi';
 
     const headers = new HttpHeaders({
       'Content-Type': 'application/x-www-form-urlencoded'
@@ -34,7 +35,7 @@ export class CreatePlatosComponent {
   
 
 
-    this.http.post<Platos>(url, body.toString(), { headers }).subscribe(
+    this.http.post<Platos>(this.globalVariable.API_URL + '/tipo_platoyordi', body.toString(), { headers }).subscribe(
       response => {
         if (response && response.status && response.status >= 400 ) {
           alert(`Se produjo un error: ${response.status}`);

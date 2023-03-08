@@ -1,56 +1,51 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError, Observable, throwError } from 'rxjs';
-import { Platos } from '../Interfaces/tiposPlato.interface';
+import { Receta } from '../Interfaces/receta.interface';
 import { GlobalVariablesService } from './global-variables.service';
 
 @Injectable({
   providedIn: 'root'
 })
-export class PlatoService {
+export class RecetaService {
   message: string = '';
 
   constructor(private http:HttpClient, private globalVariable:GlobalVariablesService) { }
 
-  getPlatos(): Observable<Platos[]> 
+  getRecetas(): Observable<Receta[]>
   {
-    return this.http.get<Platos[]>(this.globalVariable.API_URL +'/tipo_platoyoerdi/info')
+    return this.http.get<Receta[]>(this.globalVariable.API_URL +'/receta/infoyordi')
     .pipe(
       catchError(error => {
         this.message='Ocurrio un error';
         return throwError(error)
-      })
-      
-    )
+      }))
   }
-  updatePlatos(plato: Platos, id :number): Observable<Platos> {
-    return this.http.put<Platos>(this.globalVariable.API_URL +`/tipo_platoyordi/update/`+ id, plato)
+  updateRecetas(receta: Receta, id :number): Observable<Receta> {
+    return this.http.put<Receta>(this.globalVariable.API_URL +`/receta/updateyordi/`+ id, receta)
     .pipe(
       catchError(error => {
         this.message='Ocurrio un error';
         return throwError(error)
-      }
-      )
-    )
+      }))
 }
-mostrarPlato(id: number)
+mostrarReceta(id: number)
 {
-  return this.http.get<Platos>(this.globalVariable.API_URL +'/tipo_platoyordi/info' + '/' + id)
+  return this.http.get<Receta>(this.globalVariable.API_URL +'/receta/info' + '/' + id)
   .pipe(
     catchError(error => {
       this.message='Ocurrio un error';
       return throwError(error)
-    })
-  )
+    }))
 }
-eliminarPlato(id: number)
+eliminarReceta(id: number)
 {
-  return this.http.delete<Platos>(this.globalVariable.API_URL +'/tipo_platoyordi/delete' + '/' + id)
+  return this.http.delete<Receta>(this.globalVariable.API_URL +'/receta/deleteyordi' + '/' + id)
   .pipe(
     catchError(error => {
       this.message='Ocurrio un error';
       return throwError(error)
-    })
-  )
+    }
+    ))
 }
 }

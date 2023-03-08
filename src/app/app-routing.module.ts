@@ -18,14 +18,19 @@ import { EditIngredientesComponent } from './componentes/ingredientes/edit-ingre
 import { CreatePlatosComponent } from './componentes/tiposPlatos/create-platos/create-platos.component';
 import { SeePlatosComponent } from './componentes/tiposPlatos/see-platos/see-platos.component';
 import { EditPlatosComponent } from './componentes/tiposPlatos/edit-platos/edit-platos.component'; 
+import { CreateRecetaComponent } from './componentes/receta/create-receta/create-receta.component';
+import { SeeRecetaComponent } from './componentes/receta/see-receta/see-receta.component';
+import { EditRecetaComponent } from './componentes/receta/edit-receta/edit-receta.component';
+
+
 
 
 const routes: Routes = [
   
-  { path: 'registrarse', component: FormularioComponent},
+  { path: 'registrarse', component: FormularioComponent, canActivate: [LoginGuard]},
   { path: 'login', component: LoginComponent, canActivate: [LoginGuard]},
   { path: 'verify', component: CodigoVerificacionComponent},
-  { path: 'see-users', component: SeeUsersComponent, canActivate: [AuthGuard, RolGuard], data: { roles:[1,2]  }},
+  { path: 'see-users', component: SeeUsersComponent, canActivate: [AuthGuard, RolGuard], data: { roles:[1]  }},
   { path: 'unauthorized', component: UnauthorizedComponent } ,
 
 
@@ -45,6 +50,13 @@ const routes: Routes = [
   {path: 'platos-edit/:id', component: EditPlatosComponent, canActivate: [AuthGuard, RolGuard], data: { roles: [1,2] }},
   
   // { path: 'registrarse', component: FormularioComponent},
+  //Recetas
+  {path: 'recetas-create', component: CreateRecetaComponent, canActivate: [AuthGuard, RolGuard], data: { roles: [1,2] }},
+  {path: 'recetas-info', component: SeeRecetaComponent, canActivate: [AuthGuard, RolGuard], data: { roles: [1,2,3] }},
+  {path: 'recetas-edit/:id', component: EditRecetaComponent, canActivate: [AuthGuard, RolGuard], data: { roles: [1,2] }},
+
+  //Conductor
+  
 ];
 
 @NgModule({

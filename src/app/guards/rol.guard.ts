@@ -16,7 +16,7 @@ export class RolGuard implements CanActivate {
     if (userRole !== null && roles.includes(userRole)) {
       return true;
     } else {
-      this.router.navigate(['/access-denied']);
+      this.router.navigate(['/unauthorized']);
       return false;
     }
   }

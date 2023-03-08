@@ -1,58 +1,64 @@
-
 <div class="relative overflow-x-auto w-4/5 mx-auto">
     <button type="button" class="text-white bg-purple-700 hover:bg-purple-800 focus:outline-none focus:ring-4 focus:ring-purple-300 font-medium rounded-full text-sm px-5 py-2.5 text-center mb-2 dark:bg-purple-600 dark:hover:bg-purple-700 dark:focus:ring-purple-900"
-    routerLink="/chef-create" *ngIf="isAdmin() || isUser()">Crear Chef</button>
+    routerLink="/recetas-create">Crear Receta</button>
     <table class="max-w-full w-full whitespace-nowrap rounded-lg overflow-hidden text-left text-gray-500 dark:text-gray-400">
         <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
             <tr>
                 <th scope="col" class="px-6 py-3">
-                    Nombre
+                   Nombre
                 </th>
                 <th scope="col" class="px-6 py-3">
-                    Apellido paterno
+                   Duracion
                 </th>
                 <th scope="col" class="px-6 py-3">
-                    Apellido Materno
-                </th>
-                <th scope="col" class="px-6 py-3">
-                   Nacionalidad
-                </th>
-                <th scope="col" class="px-6 py-3">
-                    Edad
+                   Preparacion
                  </th>
-                 <th scope="col" class="px-6 py-3" >
+                 <th scope="col" class="px-6 py-3">
+                 Chef
+                 </th>
+                 <th scope="col" class="px-6 py-3">
+                    Ingrediente
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        Tipo de Plato
+                        </th>
+                 <th scope="col" class="px-6 py-3">
                     <span class="sr-only">Edit</span>
                 </th>
-                <th scope="col" class="px-6 py-3">
+                <th scope="col" class="px-6 py-3" >
                     <span class="sr-only">Edit</span>
                 </th>
                
             </tr>
         </thead>
         <tbody>
-            <ng-container *ngFor="let chef of chefs">
-                <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700" *ngIf="chef.status !== 0">
+            <ng-container *ngFor="let receta of recetas">
+                <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700" *ngIf="receta.status !== 0">
                   <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                    {{chef.nombre}}
+                    {{receta.nombre}}
                   </th>
                   <td class="px-6 py-4">
-                    {{chef.ap_paterno}}
+                    {{receta.duracion}}
                   </td>
                   <td class="px-6 py-4">
-                    {{chef.ap_materno}}
+                    {{receta.preparacion}}
                   </td>
                   <td class="px-6 py-4">
-                    {{chef.nacionalidad}}
+                    {{receta.chef}}
                   </td>
                   <td class="px-6 py-4">
-                    {{chef.edad}}
+                    {{receta.ingrediente}}
+                  </td>
+                  <td class="px-6 py-4">
+                    {{receta.tipo_plato}}
+                  </td>
+                 
+                  <td class="px-6 py-4 text-right">
+                    <a class="font-medium text-blue-600 dark:text-blue-500 hover:underline" (click)="editarReceta(receta.id)">Edit</a>
                   </td>
                   <td class="px-6 py-4 text-right">
-                    <a class="font-medium text-blue-600 dark:text-blue-500 hover:underline" *ngIf="isAdmin() || isUser()" (click)="editarChef(chef.id)">Edit</a>
-                  </td>
-                  <td class="px-6 py-4 text-right">
-                    <a class="font-medium text-blue-600 dark:text-blue-500 hover:underline" *ngIf="isAdmin() || isUser()" (click)="eliminarChef(chef.id, chef.nombre)">Delete</a>
-                    </td>
+                    <a class="font-medium text-blue-600 dark:text-blue-500 hover:underline" (click)="eliminarReceta(receta.id)" >Delete</a>
+                    </td> 
                     
               </ng-container>
               
@@ -61,3 +67,4 @@
     </table>
  
 </div>
+

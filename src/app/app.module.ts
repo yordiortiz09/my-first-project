@@ -11,8 +11,6 @@ import { RouterModule } from '@angular/router';
 import { OnInit } from '@angular/core';
 import { LoginComponent } from './componentes/login/login.component';
 import { AuthService } from './services/auth.service';
-import { RolesComponent } from './componentes/admins/roles/roles.component';
-import { UsersComponent } from './componentes/admins/users/users.component';
 import { SeeUsersComponent } from './componentes/admins/see-users/see-users.component';
 import { CodigoVerificacionComponent } from './componentes/codigo-verificacion/codigo-verificacion.component';
 import { TokenInterceptorService } from './interceptores/token-interceptor.service';
@@ -28,6 +26,10 @@ import { EditIngredientesComponent } from './componentes/ingredientes/edit-ingre
 import { SeePlatosComponent } from './componentes/tiposPlatos/see-platos/see-platos.component';
 import { CreatePlatosComponent } from './componentes/tiposPlatos/create-platos/create-platos.component';
 import { EditPlatosComponent } from './componentes/tiposPlatos/edit-platos/edit-platos.component';
+import { CreateRecetaComponent } from './componentes/receta/create-receta/create-receta.component';
+import { EditRecetaComponent } from './componentes/receta/edit-receta/edit-receta.component';
+import { SeeRecetaComponent } from './componentes/receta/see-receta/see-receta.component';
+
 
 
 
@@ -40,8 +42,6 @@ import { EditPlatosComponent } from './componentes/tiposPlatos/edit-platos/edit-
     FormularioComponent,
     NavBarComponent,
     LoginComponent,
-    RolesComponent,
-    UsersComponent,
     SeeUsersComponent,
     CodigoVerificacionComponent,
     UnauthorizedComponent,
@@ -54,7 +54,11 @@ import { EditPlatosComponent } from './componentes/tiposPlatos/edit-platos/edit-
     EditIngredientesComponent,
     SeePlatosComponent,
     CreatePlatosComponent,
-    EditPlatosComponent
+    EditPlatosComponent,
+    CreateRecetaComponent,
+    EditRecetaComponent,
+    SeeRecetaComponent,
+
     
   ],
   imports: [
