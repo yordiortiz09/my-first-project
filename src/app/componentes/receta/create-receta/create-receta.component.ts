@@ -51,8 +51,6 @@ export class CreateRecetaComponent implements OnInit{
 
   registrarReceta() {
    
-    // const url = 'http://192.168.123.110:8000/api/chefyordi';
-
     const headers = new HttpHeaders({
       'Content-Type': 'application/x-www-form-urlencoded'
     });
@@ -66,7 +64,7 @@ export class CreateRecetaComponent implements OnInit{
     body.set('tipo_plato', this.formu.value.tipo_plato!);
 
 
-    this.http.post<Receta>(this.globalVariable.API_URL + '/recetayordi', body.toString(), { headers }).subscribe(
+    this.http.post<Receta>(this.globalVariable.API_RECETA + '/create', body.toString(), { headers }).subscribe(
       response => {
         if (response && response.status && response.status >= 400 ) {
           alert(`Se produjo un error: ${response.status}`);

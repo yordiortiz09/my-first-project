@@ -29,11 +29,11 @@ import { EditPlatosComponent } from './componentes/tiposPlatos/edit-platos/edit-
 import { CreateRecetaComponent } from './componentes/receta/create-receta/create-receta.component';
 import { EditRecetaComponent } from './componentes/receta/edit-receta/edit-receta.component';
 import { SeeRecetaComponent } from './componentes/receta/see-receta/see-receta.component';
-
-
-
-
-
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { CreateConductorComponent } from './componentes/conductor/create-conductor/create-conductor.component';
+import { EditConductorComponent } from './componentes/conductor/edit-conductor/edit-conductor.component';
+import { SeeConductoresComponent } from './componentes/conductor/see-conductores/see-conductores.component';
 
 
 @NgModule({
@@ -58,8 +58,10 @@ import { SeeRecetaComponent } from './componentes/receta/see-receta/see-receta.c
     CreateRecetaComponent,
     EditRecetaComponent,
     SeeRecetaComponent,
+    CreateConductorComponent,
+    EditConductorComponent,
+    SeeConductoresComponent,
 
-    
   ],
   imports: [
     BrowserModule,
@@ -69,7 +71,9 @@ import { SeeRecetaComponent } from './componentes/receta/see-receta/see-receta.c
     HttpClientModule,
     AppRoutingModule, 
     RouterModule,
-    MatDialogModule
+    MatDialogModule,
+    MatSnackBarModule, 
+    BrowserAnimationsModule
  
   ],
   providers: [{provide: AuthService}, {provide: HTTP_INTERCEPTORS, useClass: TokenInterceptorService, multi: true}],

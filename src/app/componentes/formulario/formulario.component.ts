@@ -80,7 +80,7 @@ export class FormularioComponent {
     body.set('password', this.formu.value.password!);
     body.set('telefono', this.formu.value.telefono!);
 
-    this.http.post<User>(this.globalVariable.API_URL+ '/user/regis', body.toString(), { headers }).subscribe(
+    this.http.post<User>(this.globalVariable.API_URL2+ '/registrar', body.toString(), { headers }).subscribe(
      response => {
       if (response && response.status && response.status === true) {
         alert(`Se produjo un error: ${response.status}`);

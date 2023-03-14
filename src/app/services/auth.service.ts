@@ -4,6 +4,7 @@ import { Observable, throwError, BehaviorSubject } from 'rxjs';
 import { catchError, retry, tap } from 'rxjs/operators';
 import { User } from '../Interfaces/user.interface';
 import { GlobalVariablesService } from './global-variables.service';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -20,7 +21,7 @@ export class AuthService {
     return true;
   }
 
-  constructor(private http: HttpClient, private globalVariable: GlobalVariablesService) {}
+  constructor(private http: HttpClient, private globalVariable: GlobalVariablesService, private router : Router) {}
   
   getHeaders(): HttpHeaders {
     const token = localStorage.getItem('token');
@@ -30,16 +31,26 @@ export class AuthService {
     });
   }
 
-  verifyToken(token: string) {
-    return this.http.get<boolean>(this.globalVariable.API_URL+`/verifyToken`, {
-      headers: {
-        'Authorization': `Bearer ${token}`
-      }
-    });
+  verifyToken(token: string): Observable<boolean> {
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    const url = `${this.globalVariable.API_URL2}/verifyToken`;
+  
+    return this.http.get<boolean>(url, { headers }).pipe(
+      tap(
+        (response) => {},
+        (error) => {
+          if (error.status === 401) {
+            localStorage.removeItem('token');
+            this.router.navigate(['/login']);
+          }
+        }
+      )
+    );
   }
+  
   async getUserRole() {
     try {
-      const response: any = await this.http.get(this.globalVariable.API_URL +'/usuario/rol').toPromise();
+      const response: any = await this.http.get(this.globalVariable.API_URL2 +'/role').toPromise();
       return response.rol_id;
     } catch (error) {
       console.log(error);
@@ -48,19 +59,12 @@ export class AuthService {
   }
   getStatus() {
     try {
-      return this.http.get(this.globalVariable.API_URL+'/usuario/status').toPromise();
+      return this.http.get(this.globalVariable.API_URL2+'/status').toPromise();
     } catch (error) {
       console.log(error);
       return null;
     }
   }
-
-
- 
-  // getStatus(status: boolean) {
-  //   return this.http.get<boolean>(this.globalVariable.API_URL+'/usuario/status'), {
-  //   };
-  // }
 
 
   logout(): void {
@@ -78,7 +82,7 @@ export class AuthService {
   }
   deleteUser(id: number)
   {
-    return this.http.delete(this.globalVariable.API_URL + '/user/delete' + '/' + id)
+    return this.http.delete(this.globalVariable.API_URL2 + '/user/delete' + '/' + id)
     .pipe(
       retry(3),
       catchError(this.handleError)
@@ -87,7 +91,7 @@ export class AuthService {
 
   info(id: number)
   {
-    return this.http.get<User>(this.globalVariable.API_URL +'/user' + '/' + id)
+    return this.http.get<User>(this.globalVariable.API_URL2 +'/user' + '/' + id)
     .pipe(
       retry(3),
       catchError(this.handleError)
@@ -97,7 +101,7 @@ export class AuthService {
   login(user: User)
   {
 
-      return this.http.post<User>(this.globalVariable.API_URL + '/user/registro' , user) 
+      return this.http.post<User>(this.globalVariable.API_URL2 + '/login' , user) 
       .pipe(
         retry(3),
         catchError(this.handleError)
@@ -106,22 +110,37 @@ export class AuthService {
   }
   getUsers(): Observable<User[]> 
   {
-    return this.http.get<User[]>(this.globalVariable.API_URL + '/users')
+    return this.http.get<User[]>(this.globalVariable.API_URL2 + '/users')
     .pipe(
       retry(3),
       catchError(this.handleError)
     );
   }
-
-updateUserRoleAndStatus(userId: number, roleId: number, status: boolean): Observable<User> {
-  const body = { rol_id: roleId, status: status };
-  const url = `${this.globalVariable.API_URL + '/user/update'}/${userId}`;
-  const loggedInUserId = localStorage.getItem('id');
-  if (loggedInUserId && +loggedInUserId === userId) {
-    return throwError(() => alert('No se puede actualizar el propio perfil.'));
+  
+  updateUserRoleAndStatus(userId: number, roleId: number, status: boolean): Observable<User> {
+    const body = { rol_id: roleId, status: status };
+    const url = `${this.globalVariable.API_URL2 + '/user/update'}/${userId}`;
+    return this.http.put<User>(url, body)
+      .pipe(
+        catchError((error: HttpErrorResponse) => {
+          if (error.status === 400) {
+            alert('Error: ' + error.error.message);
+          }
+          return throwError(error);
+        })
+      );
   }
-  return this.http.put<User>(url, body);
-}
+  getStatuss(): Observable<User> {
+    return this.http.get<User>(`${this.globalVariable.API_URL2}/getStatus`).pipe(
+      catchError((error) => {
+        if (error.status === 401) {
+          localStorage.removeItem('token');
+          this.router.navigate(['/login']);
+        }
+        return throwError(error);
+      })
+    );
+  }
 
   private handleError(error: HttpErrorResponse)
   {

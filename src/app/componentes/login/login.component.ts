@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { User } from '../../Interfaces/user.interface';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { SharedServiceService } from '../../services/shared-service.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-login',
@@ -19,7 +20,13 @@ export class LoginComponent {
   showError: boolean = false;
   public apiFailed: boolean = false;
 
-  constructor(private fb: FormBuilder,private authService: AuthService,private sharedService: SharedServiceService,private router:Router,private route: ActivatedRoute, private changeDetectorRef: ChangeDetectorRef) 
+  constructor(private fb: FormBuilder,
+  private authService: AuthService,
+  private sharedService: SharedServiceService,
+  private router:Router,
+  private route: ActivatedRoute, 
+  private changeDetectorRef: ChangeDetectorRef,
+  private snackBar: MatSnackBar) 
   { 
   
     this.form= this.fb.group({
@@ -36,7 +43,7 @@ export class LoginComponent {
       this.authService.login(values).subscribe((response:any) =>
       {
         if (response.user.status === 0) {
-          alert('Usuario deshabilitado.');
+          alert ('Usuario deshabilitado');
           this.router.navigate(['/login']);
           return;
         }

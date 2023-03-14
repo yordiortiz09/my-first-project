@@ -41,7 +41,7 @@ export class CreateIngredientesComponent {
   
 
 
-    this.http.post<ingredientes>(this.globalVariable.API_URL + '/ingredienteyordi', body.toString(), { headers }).subscribe(
+    this.http.post<ingredientes>(this.globalVariable.API_INGREDIENTE + '/create', body.toString(), { headers }).subscribe(
       response => {
         if (response && response.status && response.status >= 400 ) {
           alert(`Se produjo un error: ${response.status}`);

@@ -1,31 +1,31 @@
-import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError, Observable, retry, throwError } from 'rxjs';
-import { ingredientes } from '../Interfaces/ingredientes';
 import { GlobalVariablesService } from './global-variables.service';
+import { HttpClient } from '@angular/common/http';
+import { Conductores } from '../Interfaces/conductor.interface';
+
 
 @Injectable({
   providedIn: 'root'
 })
-export class IngredienteService {
-  message: string = '';
+export class ConductorService {
+  message : String = '';
 
   constructor(private http:HttpClient,private globalVariable: GlobalVariablesService) { }
 
-  
-  getIngredientes(): Observable<ingredientes[]> 
+
+  getConductores(): Observable<Conductores[]>
   {
-    return this.http.get<ingredientes[]>(this.globalVariable.API_INGREDIENTE +'/info')
+    return this.http.get<Conductores[]>(this.globalVariable.API_CONDUCTOR +'/info')
     .pipe(
       catchError(error => {
         this.message='Ocurrio un error';
         return throwError(error)
-      })
-      
-    )
+      }))
   }
-  updateIngrediente(ingrediente: ingredientes, id :number): Observable<ingredientes> {
-    return this.http.put<ingredientes>(this.globalVariable.API_INGREDIENTE + `/update`+ id, ingrediente)
+
+  updateConductor(conductor:Conductores , id :number): Observable<Conductores> {
+    return this.http.put<Conductores>(this.globalVariable.API_CONDUCTOR + `/update/`+ id, conductor)
     .pipe(
       catchError(error => {
         this.message='Ocurrio un error';
@@ -34,9 +34,9 @@ export class IngredienteService {
       )
     )
 }
-mostrarIngrediente(id: number)
+mostrarConductor(id: number)
 {
-  return this.http.get<ingredientes>(this.globalVariable.API_URL+'/info' + '/' + id)
+  return this.http.get<Conductores>(this.globalVariable.API_CONDUCTOR+'/info' + '/' + id)
   .pipe(
     catchError(error => {
       this.message='Ocurrio un error';
@@ -44,9 +44,9 @@ mostrarIngrediente(id: number)
     })
   )
 }
-eliminarIngrediente(id: number)
+eliminarConductor(id: number)
 {
-  return this.http.delete<ingredientes>(this.globalVariable.API_URL+'/delete' + '/' + id)
+  return this.http.delete<Conductores>(this.globalVariable.API_CONDUCTOR+'/delete' + '/' + id)
   .pipe(
     catchError(error => {
       this.message='Ocurrio un error';
@@ -54,6 +54,4 @@ eliminarIngrediente(id: number)
     })
   )
 }
-  
-
 }

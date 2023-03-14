@@ -44,7 +44,7 @@ export class CreateComponent {
     body.set('edad', this.formu.value.edad!);
 
 
-    this.http.post<Chef>(this.globalVariable.API_URL + '/chefyordi', body.toString(), { headers }).subscribe(
+    this.http.post<Chef>(this.globalVariable.API_CHEF + '/create', body.toString(), { headers }).subscribe(
       response => {
         if (response && response.status && response.status >= 400 ) {
           alert(`Se produjo un error: ${response.status}`);

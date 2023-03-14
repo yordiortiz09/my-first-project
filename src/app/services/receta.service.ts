@@ -14,7 +14,7 @@ export class RecetaService {
 
   getRecetas(): Observable<Receta[]>
   {
-    return this.http.get<Receta[]>(this.globalVariable.API_URL +'/receta/infoyordi')
+    return this.http.get<Receta[]>(this.globalVariable.API_RECETA +'/info')
     .pipe(
       catchError(error => {
         this.message='Ocurrio un error';
@@ -22,7 +22,7 @@ export class RecetaService {
       }))
   }
   updateRecetas(receta: Receta, id :number): Observable<Receta> {
-    return this.http.put<Receta>(this.globalVariable.API_URL +`/receta/updateyordi/`+ id, receta)
+    return this.http.put<Receta>(this.globalVariable.API_RECETA +`/update`+ id, receta)
     .pipe(
       catchError(error => {
         this.message='Ocurrio un error';
@@ -31,7 +31,7 @@ export class RecetaService {
 }
 mostrarReceta(id: number)
 {
-  return this.http.get<Receta>(this.globalVariable.API_URL +'/receta/info' + '/' + id)
+  return this.http.get<Receta>(this.globalVariable.API_RECETA +'/info' + '/' + id)
   .pipe(
     catchError(error => {
       this.message='Ocurrio un error';
@@ -40,7 +40,7 @@ mostrarReceta(id: number)
 }
 eliminarReceta(id: number)
 {
-  return this.http.delete<Receta>(this.globalVariable.API_URL +'/receta/deleteyordi' + '/' + id)
+  return this.http.delete<Receta>(this.globalVariable.API_RECETA +'/delete' + '/' + id)
   .pipe(
     catchError(error => {
       this.message='Ocurrio un error';
